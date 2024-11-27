@@ -4,7 +4,7 @@ from . import ExamSubject
 
 class Question(models.Model):
     question = models.TextField()
-    diagram = models.ImageField(upload_to="uploads/") #pillow is required
+    diagram = models.ImageField(upload_to="uploads/", blank=True) #pillow is required
     option_a = models.TextField()
     option_b = models.TextField()
     option_c = models.TextField()

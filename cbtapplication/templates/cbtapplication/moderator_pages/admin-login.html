@@ -1,0 +1,27 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="auth-container-wrapper flex items-center justify-center h-screen w-full">
+    <div class="auth-container py-5 px-10 rounded-lg" style="width: 400px;">
+    <img class="mx-auto" width="170px" src="{% static 'cbtapplication/images/ola-logo.png' %}" alt="">
+    <p class="text-center font-bold text-lg my-2">Moderator Login</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="input-field w-5/5">
+            <label for="user-id">Username</label>
+            <input class="rounded" type="text" placeholder="" name="user-id" id="user-id">
+        </div>
+        <div class="input-field">
+            <label for="password">Password</label>
+            <input class="rounded" type="password" placeholder="" name="password" id="password">
+        </div>
+        <button style="width: 100%;" class="my-3 py-3 theme-bg hover-secondary-theme-bg text-white font-bold text-sm rounded">Login</button>
+        
+    </form>
+    <p>Login as a <a class="theme-color font-bold underline" href="{% url 'student-login-page' %}">Student</a></p>
+</div>
+</div>
+
+{% endblock body %}

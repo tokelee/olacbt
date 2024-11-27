@@ -9,6 +9,7 @@ class ExamSubject(models.Model):
         "3":"SS3"
     }
     DEPARTMENT_CHOICES = {
+        "all":"All Departments",
         "science":"Science",
         "business":"Business",
         "humanity":"Humanity"
@@ -20,4 +21,4 @@ class ExamSubject(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"SS {self.class_year} {self.subject}"
+        return f"SS {self.class_year} {self.subject.name}"

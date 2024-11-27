@@ -1,0 +1,233 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+    .question-container{
+        max-width: 100%;
+        position: relative;
+        margin: auto;
+    }
+</style>
+<div class="app-container w-screen h-screen flex flex-col">
+    <div id="header" class="header p-3 h-1/5 w-full flex justify-center items-center">
+
+        <div class="brand h-4/5 flex w-1/4 items-center justify-center">
+            <div class="school-logo mr-2">
+                <img width="175px" src="{% static 'cbtapplication/images/ola-logo.png' %}" alt="">
+            </div>
+            <p class="text-sm font-bold theme-color">Our Lady of Apostles Maryway Odo-ona Ibadan.</p>
+        </div>
+
+        <div class="timer-container w-2/4 text-center">
+            <p>Remaining Time</p>
+            <p id="timer" class="text-lg font-bold text-red-500">00h 00m 00s</p>
+        </div>
+
+        <div class="student-info w-1/4 text-sm leading-6 flex justify-end">
+            <div>
+                <p>Student Name: {{request.user.first_name}} {{request.user.last_name}}</p>
+                <p>Class: SS{{class_year}} ({{department}})</p>
+                <p>Subject: {{subject_name}}</p>
+                <button class="border-none bg-red-500 rounded text-white font-bold py-1 px-7 mt-2" onclick="openSubmitModal()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="question-container" class="question-container h-3/5 w-full text-sm">
+        <form id="exam-form" action="" method="post">
+            {%csrf_token%}
+        {%for i in question%}
+        <div class="question p-5">
+            <div class="question-header w-5/5 p-2 text-white theme-bg">
+                Question <span id="question-no">{{i.question_no}}</span>
+            </div>
+            <div class="question-container border p-2" style="height: 280px; overflow: hidden; overflow-y: scroll;">
+                
+                <div class="diagram my-2">
+                    <p>{{i.question.question}}</p>
+                    <div class="my-5">
+                    {%if i.question.diagram%}
+                    <!-- <img width="120px" src="{% static 'cbtapplication/images/ola-logo.png' %}" alt=""> -->
+                    <img width="250px" src="/media/{{i.question.diagram}}" alt="">
+                    {%endif%}
+                </div>
+                </div>
+                
+                <div class="option mb-2 flex items-start">
+                    A.
+                    <input class="mt-1 ml-1 mr-2" type="radio" name="question-{{i.question.id}}" value="a-{{i.question.answer}}" id="question-{{i.question.id}}-a">
+                    <label for="question-{{i.question.id}}-a">{{i.question.option_a}}</label>
+                </div>
+                <div class="option mb-2 flex items-start">
+                    B.
+                    <input class="mt-1 ml-1 mr-2" type="radio" name="question-{{i.question.id}}" value="b-{{i.question.answer}}" id="question-{{i.question.id}}-b">
+                    <label for="question-{{i.question.id}}-b">{{i.question.option_b}}</label>
+                </div>
+                <div class="option mb-2 flex items-start">
+                    C.
+                    <input class="mt-1 ml-1 mr-2" type="radio" name="question-{{i.question.id}}" value="c-{{i.question.answer}}" id="question-{{i.question.id}}-c">
+                    <label for="question-{{i.question.id}}-c">{{i.question.option_c}}</label>
+                </div>
+                <div class="option mb-2 flex items-start">
+                    D.
+                    <input class="mt-1 ml-1 mr-2" type="radio" name="question-{{i.question.id}}" value="d-{{i.question.answer}}" id="question-{{i.question.id}}-d">
+                    <label for="question-{{i.question.id}}-d">{{i.question.option_d}}</label>
+                </div>
+                
+            </div>
+        </div>
+        {%endfor%}
+    </form>
+    </div>
+
+    <div id="footer" class="footer h-1/5 px-5 w-full">
+        <div class="navigator flex justify-between">
+            <button onclick="plusSlides(-1)" class="border-none theme-bg py-2 px-4 rounded text-white font-bold hover-secondary-theme-bg text-sm">Previous</button>
+            <button onclick="plusSlides(1)" class="border-none theme-bg py-2 px-4 rounded text-white font-bold hover-secondary-theme-bg text-sm">Next</button>
+            
+        </div>
+
+        <div class="question-tracker-container text-sm text-gray-400 flex flex-wrap justify-center">
+            <!-- secondary-theme-bg and text-white-->
+             {%for i in question%}
+             <p class="mt-2 mx-1 question-tracker border border-gray-400 rounded-full h-7 w-7 flex items-center justify-center cursor-pointer">
+                {{i.question_no}}
+            </p>
+             <!-- <p onclick="currentSlide('{{i.question_no}}')" class="mt-2 mx-1 question-tracker border border-gray-400 rounded-full h-7 w-7 flex items-center justify-center cursor-pointer">
+                {{i.question_no}}
+            </p> -->
+             {%endfor%}
+            
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="force-submit-modal" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.653);" class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-screen">
+        <div class="relative p-4 w-1/3 max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl text-red-600 font-semibold text-gray-900 dark:text-white">
+                        Notice
+                    </h3>
+                    
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        Sorry, your time is up, you have need to submit now
+                    </p>
+                   
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button data-modal-hide="default-modal" type="button" class="text-white theme-bg hover:secondary-theme-bg focus:ring-4 focus:outline-none focus:theme-bg font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="submitExam()">Submit</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="submit-modal" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.653);" class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-screen">
+        <div class="relative p-4 w-1/3 max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl text-red-600 font-semibold text-gray-900 dark:text-white">
+                        Notice
+                    </h3>
+                    
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        Are you sure you want to submit?
+                    </p>
+                   
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button data-modal-hide="default-modal" type="button" class="text-white bg-green-600 hover:secondary-theme-bg focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center" onclick="submitExam()">Yes, Submit</button>
+                    <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 ml-3" onclick="closeSubmitModal()">No, Go back to exam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function openForceSubmitModal(){
+        return document.getElementById("force-submit-modal").classList.remove("hidden");
+    }
+    function openSubmitModal(){
+        return document.getElementById("submit-modal").classList.remove("hidden");
+    }
+    // function closeForceSubmitModal(){
+    //     return document.getElementById("force-submit-modal").classList.add("hidden");
+    // }
+    function closeSubmitModal(){
+        return document.getElementById("submit-modal").classList.add("hidden");
+    }
+
+    function submitExam(){
+        return document.getElementById("exam-form").submit();
+    }
+
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n){
+        showSlides(slideIndex+=n);
+    }
+
+    function currentSlide(n){
+        showSlides(slideIndex=n);
+    }
+
+    function showSlides(n){
+        let i;
+        let slides = document.getElementsByClassName("question");
+
+        if(n > slides.length){
+            slideIndex=slides.length
+            return
+        }
+
+        if(n<1){
+            slideIndex=1
+            return
+        }
+        for(i=0; i < slides.length; i++){
+            slides[i].style.display="none";
+        }
+        slides[slideIndex-1].style.display="block";
+        
+    }
+
+    let current_time = new Date();
+    
+    const exam_duration = new Date(current_time.getTime() + 60 * 12 *1000)
+    
+    var x = setInterval(function(){
+        var now = new Date().getTime();
+
+        var distance = exam_duration - now;
+
+        var hours = Math.floor((distance % (1000*60*60*24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000*60*60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000*60)) / (1000));
+
+        document.getElementById("timer").innerHTML = hours.toString().padStart(2, "0")+"h "+(minutes.toString().padStart(2, "0"))+"m "+seconds.toString().padStart(2, "0")+"s "
+
+        if(distance<0){
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "Times up"
+            openForceSubmitModal();
+        }
+    }, 1000)
+</script>
+{% endblock body %}

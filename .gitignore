@@ -1,0 +1,3 @@
+*.cnf
+uploads_copy
+*.sqlite3_copy

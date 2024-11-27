@@ -1,0 +1,44 @@
+{% extends './base_dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="wrapper p-5">
+<h1 class="my-6 text-2xl">Exam Subject</h1>
+  <table>
+    <tr>
+      <th>Subject</th>
+      <th>Class</th>
+      <th>Status</th>
+      <th>Department</th>
+      <th>Action</th>
+    </tr>
+    {%for exam in exams%}
+    <tr class="capitalize">
+      <td>{{result.exam.subject.name}}</td>  
+      <td>SS{{result.exam.class_year}}</td>  
+      {% if result.exam.is_active %}
+      <td>Active</td>
+      {%else%}
+      <td>Inactive</td>
+      {%endif%}
+      <td>{{result.exam.department}}</td>  
+      {% if result.exam.is_active %}
+      <td> 
+        <a href="">
+        <button class="text-white h-8 mb-1 theme-bg hover:secondary-theme-bg focus:ring-4 focus:outline-none focus:theme-bg font-medium rounded-lg text-sm px-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Deactivate Exam</button>
+    </a>
+         </td>
+      {%else%}
+      <td>
+        <button class="text-white h-8 mb-1 theme-bg hover:secondary-theme-bg focus:ring-4 focus:outline-none focus:theme-bg font-medium rounded-lg text-sm px-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Activate Exam</button>
+      </td>
+      {%endif%}
+    </tr>
+    {%endfor%}
+
+  </table>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,61 @@
+{% extends './base_dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="wrapper p-5">
+
+  <div class="my-5">
+    <p>Filter Results</p>
+    <form action="" method="get">
+      <div class="grid my-2 grid-cols-4 gap-4 items-end">
+        <div class="input-field">
+          <label for="class">Class</label>
+          <select name="class" id="class">
+            <option value=""></option>
+            <option value="1">SS1</option>
+            <option value="2">SS2</option>
+            <option value="3">SS3</option>
+          </select>
+
+        </div>
+        <div class="input-field">
+          <label for="department">Department</label>
+          <select name="department" id="department">
+            <option value=""></option>
+            <option value="science">Science</option>
+            <option value="business">Business</option>
+            <option value="humanity">Humanity</option>
+          </select>
+
+        </div>
+
+        <button class="text-white h-8 mb-1 theme-bg hover:secondary-theme-bg focus:ring-4 focus:outline-none focus:theme-bg font-medium rounded-lg text-sm px-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Filter</button>
+      </div>
+    </form>
+  </div>
+  <table>
+    <tr>
+      <th>Student Name</th>
+      <th>Class</th>
+      <th>Department</th>
+      <th>Subject</th>
+      <th>Score</th>
+      <th>Remark</th>
+    </tr>
+    {%for result in results%}
+    <tr class="capitalize">
+      <td>{{result.user.first_name}} {{result.user.last_name}}</td>
+      <td>SS {{result.user.userdetail.class_year}}</td>
+      <td>{{result.user.userdetail.department}}</td>
+      <td>{{result.exam_subject.subject.name}}</td>
+      <td>{{result.score}}</td>
+      <td>{{result.grade}}</td>
+    </tr>
+    {%endfor%}
+
+  </table>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'cbtapplication/css/tailwindmain.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cbtapplication/css/essential.css' %}">
+    {% block head %}
+
+    {% endblock head %}
+</head>
+
+<body>
+
+    <style>
+        .nav-options a {
+            margin: 0 5px;
+        }
+    </style>
+
+    <div class="app-container">
+        <div class="navbar h-22 text-white flex justify-between items-center px-3  py-1">
+            <div class="brand flex items-center">
+                <img width="50px" src="{% static 'cbtapplication/images/ola-logo.png' %}" alt="">
+                <p class="px-2 font-bold">Our Lady of Apostles</p>
+            </div>
+
+            <div class="nav-options">
+
+                <a href="">Check result</a>
+                <a href="">Time table</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+        {%if messages%}
+        <ul class="messages my-2">
+           {%for message in messages%}
+           <li {%if message.tags%} class="{{message.tags}}" {%endif%}>
+               {{message}}
+           </li>
+           {%endfor%}
+       </ul>
+       {%endif%}
+        {%block body%}
+
+        {% endblock body %}
+    </div>
+
+    
+</body>
+
+</html>

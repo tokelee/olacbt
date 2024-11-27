@@ -1,0 +1,69 @@
+{% extends './base_dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="auth-container-wrapper flex items-center justify-center h-screen w-full">
+    <div class="auth-container py-5 px-10 rounded-lg" style="width: 600px;">
+        <!-- <img class="mx-auto" width="170px" src="{% static 'cbtapplication/images/ola-logo.png' %}" alt=""> -->
+        <p class="text-center font-bold text-lg my-2">Register User</p>
+        <form class="reg-form" action="" method="post">
+            {% csrf_token %}
+
+            <div class="flex">
+                <div class="input-field w-full">
+                    {{form1.first_name.label}}
+                    {{form1.first_name}}
+                </div>
+                <span class="mx-2"></span>
+                <div class="input-field w-full">
+                    {{form1.last_name.label}}
+                    {{form1.last_name}}
+                </div>
+            </div>
+
+            <div class="input-field w-5/5">
+                {{form1.username.label}}
+                {{form1.username}}
+            </div>
+            {% if form1.username.errors %}
+            <div class="p-2 my-1 bg-red-200 text-sm">{{form1.username.errors}}</div>
+            {%endif%}
+
+            <div class="flex my-2">
+                <div class="input-field w-2/6">
+                    {{form2.class_year.label}}
+                    {{form2.class_year}}
+                </div>
+                <span class="mx-2"></span>
+                <div class="input-field w-2/6">
+                    {{form2.department.label}}
+                    {{form2.department}}
+                </div>
+                <span class="mx-2"></span>
+                <div class="input-field w-2/6">
+                    {{form2.role.label}}
+                    {{form2.role}}
+                </div>
+            </div>
+
+            <div class="input-field">
+                {{form2.dob.label}}
+                {{form2.dob}}
+            </div>
+
+            <div class="input-field flex my-2">
+                {{form2.is_computer_literate}}
+                <div class="mr-2"></div>
+                {{form2.is_computer_literate.label}}
+                
+            </div>
+
+            <button style="width: 100%;"
+                class="my-3 py-2 theme-bg hover-secondary-theme-bg text-white font-bold text-sm rounded">Add</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock body %}

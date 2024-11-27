@@ -1,0 +1,32 @@
+{% extends './base_dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="wrapper p-5">
+    <p>Welcome {{request.user.first_name}}, {{request.user.last_name}}</p>
+    <div class="bg-yellow-100 p-3 my-5">
+        <p>Moderator Dashboard</p>
+    </div>
+
+    <table>
+        <tr>
+          <th>Student Name</th>
+          <th>Subject</th>
+          <th>Score</th>
+          <th>Remark</th>
+        </tr>
+        {%for result in results%}
+        <tr class="capitalize">
+            <td>{{result.user.first_name}} {{result.user.last_name}}</td>
+            <td>{{result.exam_subject.subject.name}}</td>
+            <td>{{result.score}}</td>
+            <td>{{result.grade}}</td>
+          </tr>
+        {%endfor%}
+       
+      </table>
+</div>
+
+{% endblock body %}

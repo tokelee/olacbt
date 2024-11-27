@@ -1,0 +1,54 @@
+{% extends './base_dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="wrapper p-5">
+    <p>Welcome {{request.user.first_name}}, {{request.user.last_name}}</p>
+    <div class="bg-yellow-100 p-3 my-5">
+        <p>Student Dashboard</p>
+    </div>
+
+    <p class="italic">Instruction: Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam vitae quisquam vel enim nisi repellat nostrum, eveniet sapiente cupiditate ad minima nihil ut quis at praesentium, repudiandae iure quaerat natus.</p>
+
+    <div class="exam-container grid grid-cols-3 gap-4 my-5">
+        {%for exam in exam_subject%}
+        <div style="border: thin solid #a15c08;" class="exam rounded-lg mr-2 overflow-hidden">
+            <div class="exam-subject h-22 theme-bg text-white p-2 rounded-t-lg font-bold">
+                <p>{{exam.subject}}</p>
+            </div>
+            <div class="exam-details p-3 leading-7 text-sm capitalize">
+            <p>Subject: {{exam.subject}}</p>
+            <p>Class: SS{{exam.class}}</p>
+            <p class="capitalize">Department: {{exam.department}}</p>
+            <p>Duration: 50mins</p>
+            {%if exam.isActive%}
+                <p> Status: <span class="bg-green-500 py-1 px-3 text-white rounded-lg">Active</span></p>
+            {%else%}
+            <p>Status: <span class="bg-red-500 py-1 px-3 text-white rounded-lg">Done</span></p>
+            {%endif%}
+            
+            
+            </div>
+
+            <div style="height: 100%;" class="exam-footer bg-yellow-100 p-2 rounded-b-lg">
+                {%if exam.isActive%}
+                <button type="button" onclick="selectExam('{{exam.id}}')" class="border-none theme-bg py-2 px-4 rounded text-white font-bold hover-secondary-theme-bg text-sm">Start Data Processing Exam</button>
+                {%endif%}
+            </div>
+            
+        </div>
+
+        {%endfor%}
+    </div>
+</div>
+
+<script>
+    function selectExam(exam_subject_id){
+        decoy_phrase=crypto.randomUUID()+"-"+(exam_subject_id*89).toString()
+        return window.location.href = `/exam/${decoy_phrase}`
+    }
+
+</script>
+{% endblock body %}
