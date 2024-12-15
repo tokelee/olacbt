@@ -22,7 +22,7 @@
             <p>Subject: {{exam.subject}}</p>
             <p>Class: SS{{exam.class}}</p>
             <p class="capitalize">Department: {{exam.department}}</p>
-            <p>Duration: 50mins</p>
+            <p>Duration: 15mins</p>
             {%if exam.isActive%}
                 <p> Status: <span class="bg-green-500 py-1 px-3 text-white rounded-lg">Active</span></p>
             {%else%}
@@ -34,7 +34,9 @@
 
             <div style="height: 100%;" class="exam-footer bg-yellow-100 p-2 rounded-b-lg">
                 {%if exam.isActive%}
-                <button type="button" onclick="selectExam('{{exam.id}}')" class="border-none theme-bg py-2 px-4 rounded text-white font-bold hover-secondary-theme-bg text-sm">Start Data Processing Exam</button>
+                <a href="/exam/ikfoekfkf-{{exam.id}}">
+                <button type="button" class="border-none theme-bg py-2 px-4 rounded text-white font-bold hover-secondary-theme-bg text-sm">Start {{exam.subject}} Exam</button>
+                </a>
                 {%endif%}
             </div>
             

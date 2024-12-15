@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-=gn71hde9g+i9n9dtsx9bt!b(k9po&rcwgs=ou8hyh&+1)t&fp
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["0.0.0.0:8000", "192.168.2.35"]
 
 
 # Application definition
@@ -83,14 +84,14 @@ DATABASES = {
 
 db_config_path = BASE_DIR/'my.cnf'
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "OPTIONS": {
-#             "read_default_file": str(db_config_path),
-#         },
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "OPTIONS": {
+            "read_default_file": str(db_config_path),
+        },
+    }
+}
 
 
 # Password validation

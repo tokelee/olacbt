@@ -17,8 +17,8 @@ class UserDetail(models.Model):
         "business":"Business",
         "humanity":"Humanity"
     }
-    class_year = models.CharField(max_length=5, blank=True, choices=CLASS_YEAR_CHOICES)
-    department = models.CharField(max_length=50, blank=True, choices=DEPARTMENT_CHOICES)
+    class_year = models.CharField(max_length=5, blank=True, choices=CLASS_YEAR_CHOICES, default="2")
+    department = models.CharField(max_length=50, blank=True, choices=DEPARTMENT_CHOICES, default="science")
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="student")
     is_computer_literate = models.BooleanField(max_length=10, default=False, verbose_name="I am computer literate")
     dob = models.DateField(verbose_name="Date of birth", blank=True, default=datetime(2006,1,1))
@@ -30,3 +30,6 @@ class UserDetail(models.Model):
 
 # username: olacbtmoderator
 # password: cbtmoderator
+
+# Physics_moderator
+# tokelee - user and pass

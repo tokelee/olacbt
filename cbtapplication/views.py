@@ -16,7 +16,7 @@ def logout_view(request):
 
 @login_required(login_url="/student/login")
 def exam_page(request, exam_subject):
-    exam_subject_id =  math.floor(int(str(exam_subject).split("-")[-1])/89)
+    exam_subject_id =  math.floor(int(str(exam_subject).split("-")[-1]))
     questions_db = Question.objects.all().filter(exam_subject_id=exam_subject_id)
     questions_db = list(questions_db)
     shuffle(questions_db)
@@ -31,7 +31,7 @@ def exam_page(request, exam_subject):
     if request.method == "POST":
         for items in list(request.POST.values())[1:]:
             correct =  str(items).lower().split("-")[0] == str(items).lower().split("-")[-1]
-            mark = mark+1.5 if correct else mark+0
+            mark = mark+2.5 if correct else mark+0
         check_duplicate = Result.objects.filter(exam_subject_id=exam_subject_id, user=request.user).first()
         if check_duplicate is None:
             if(mark > 48):
@@ -51,7 +51,7 @@ def exam_page(request, exam_subject):
     subject_name = subject.exam_subject.subject.name
     class_year = subject.exam_subject.class_year
     department = request.user.userdetail.department
-    return render(request, "cbtapplication/student_pages/exam-page.html", {"question":questions[:10], "subject_name":subject_name, "class_year":class_year, "department":department})
+    return render(request, "cbtapplication/student_pages/exam-page.html", {"question":questions, "subject_name":subject_name, "class_year":class_year, "department":department})
 
 def student_login(request):
     if request.method == "POST":
